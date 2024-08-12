@@ -82,7 +82,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const loggedUser = await User.findById(user._id).select("-password -refreshToken")
 
-    console.log("acs: ", accessToken,"ref: ", refreshToken);
+    console.log("acs: ", accessToken,"\nref: ", refreshToken);
 
     res.status(200)
         .cookie("accessToken", accessToken, options)
