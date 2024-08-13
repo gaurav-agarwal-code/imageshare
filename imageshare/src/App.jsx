@@ -8,7 +8,7 @@ import {Login} from "./pages/Login.jsx"
 import { About } from './pages/About.jsx'
 import { Footer } from './component/Footer/Footer.jsx'
 import { Error } from './pages/Error.jsx'
-import Logout from './pages/Logout.jsx'
+import {Logout} from './pages/Logout.jsx'
 
 function App() {
 

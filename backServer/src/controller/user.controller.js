@@ -4,6 +4,11 @@ import { ApiResponse } from '../utils/ApiResponse.js'
 import { User } from '../models/user.model.js'
 import jwt from 'jsonwebtoken';
 
+const options = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production"
+}
+
 const generateAccessAndrefreshTokens = async (userId) => {
     try {
         const user = await User.findById(userId)
@@ -20,10 +25,6 @@ const generateAccessAndrefreshTokens = async (userId) => {
     }
 }
 
-const options = {
-    httpOnly: true,
-    secure: true
-}
 
 const registerUser = asyncHandler(async (req, res) => {
 
@@ -82,7 +83,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const loggedUser = await User.findById(user._id).select("-password -refreshToken")
 
-    console.log("acs: ", accessToken,"\nref: ", refreshToken);
+    // console.log("acs: ", accessToken,"\nref: ", refreshToken);
 
     res.status(200)
         .cookie("accessToken", accessToken, options)
@@ -96,10 +97,10 @@ const loginUser = asyncHandler(async (req, res) => {
                 "user logged in...."
             )
         )
-
 })
 
 const logoutUser = asyncHandler(async(req,res)=>{
+    console.log("till log out");
     await User.findByIdAndUpdate(
         req.user._id,
         {
@@ -111,7 +112,6 @@ const logoutUser = asyncHandler(async(req,res)=>{
             new: true
         }
     )
-
     return res.status(200)
     .clearCookie("accessToken", options)
     .clearCookie("refreshToken", options)
