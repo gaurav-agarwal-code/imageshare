@@ -1,36 +1,35 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Logout = () => {
+export const Logout = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const logoutUser = async () => {
-            try {
-                const response = await fetch("http://localhost:8000/api/v1/user/logout", {
-                    method: "POST",
-                    credentials: "include",
-                });
-
-                if (response.ok) {
-                    // Successfully logged out
-                    localStorage.removeItem("isLoggedIn");
-                    alert("Logged out successfully");
-                    navigate('/login'); // Redirect to login or home page
-                } else {
-                    // Handle logout failure
-                    alert("Failed to log out");
-                }
-            } catch (error) {
-                console.log("Logout error:", error);
-                alert("An error occurred during logout");
+        console.log("logout fetched");
+        fetch("http://localhost:8000/api/v1/user/logout", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            credentials: 'include'
+        })
+        .then((res) => {
+            if (res.status !== 200) {
+                const error = new Error(res.error);
+                console.log(error);
+            } else {
+                navigate("/login");
             }
-        };
+        })
+        .catch((err) => {
+            console.log("react logout error", err);
+        });
+    }, [navigate]); // Empty dependency array to ensure it runs only once
 
-        logoutUser();
-    }, [navigate]);
-
-    return <div>Logging out...</div>;
+    return (
+        <>
+            <div>Logout page.....</div>
+        </>
+    );
 };
-
-export default Logout;

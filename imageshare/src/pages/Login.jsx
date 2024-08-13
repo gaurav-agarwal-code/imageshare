@@ -21,6 +21,7 @@ export function Login(props) {
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
+        // console.log("user:  ",JSON.stringify(user));
     
         try {
             const response = await fetch("http://localhost:8000/api/v1/user/login", {
