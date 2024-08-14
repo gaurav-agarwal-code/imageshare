@@ -24,7 +24,6 @@ export const Logout = () => {
         console.error("Logout error:", error.response?.data || error.message);
         if (error.response?.status === 401) {
           console.log("Token might be missing or invalid. Redirecting to login.");
-          navigate('/login');
         }
       }
     };
