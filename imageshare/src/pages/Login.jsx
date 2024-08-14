@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import "../index.css";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-export function Login(props) {
+
+export function Login() {
     const [user, setUser] = useState({
+        email: "",
         username: "",
         password: "",
     })
@@ -19,31 +22,29 @@ export function Login(props) {
 
     const navigate = useNavigate()
 
-    const handleSubmit = async (e) =>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log("user:  ",JSON.stringify(user));
-    
+        console.log("user:  ", JSON.stringify(user));
+        
         try {
-            const response = await fetch("http://localhost:8000/api/v1/user/login", {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body : JSON.stringify(user)
-            })
+            const response = await axios.post("http://localhost:8000/api/v1/user/login", user, {
+                withCredentials: true
+            });
     
-            if(response.ok){
-                // Store login state in localStorage
+            if (response.status === 200) {
+
                 localStorage.setItem("isLoggedIn", "true");
-                alert("login successfully")
-                navigate("/")
+    
+                alert("Login successful");
+                navigate("/");
             } else {
-                alert("invalid credentials")
+                alert("Invalid credentials");
             }
         } catch (error) {
-            console.log("react login error", error);
+            console.log("React login error", error);
+            alert("Login failed. Please check your credentials and try again.");
         }
-    }
+    };    
         
 
     return (
@@ -57,9 +58,14 @@ export function Login(props) {
                     <div className="content">
                         <form onSubmit={handleSubmit}>
                             <div className='mb-3'>
-                                <label htmlFor="username">Username/Email</label>
-                                <input type="text" name='username' id='username' autoComplete='on' placeholder='Enter username or email'
+                                <label htmlFor="username">Enter Username or email</label>
+                                <input type="text" name='username' id='username' autoComplete='on' placeholder='Enter username'
                                 value={user.username} onChange={handleInput} />
+                            </div>
+                            <div className='mb-3'>
+                                {/* <label htmlFor="email">Email</label> */}
+                                <input type="email" name='email' id='email' autoComplete='on' placeholder='Enter email'
+                                value={user.email} onChange={handleInput} />
                             </div>
                             <div className='mb-3'>
                                 <label htmlFor="password">Password</label>
