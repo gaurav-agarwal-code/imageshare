@@ -1,35 +1,38 @@
-import React, { useEffect } from 'react';
+import axios from 'axios';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Logout = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        console.log("logout fetched");
-        fetch("http://localhost:8000/api/v1/user/logout", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            credentials: 'include'
-        })
-        .then((res) => {
-            if (res.status !== 200) {
-                const error = new Error(res.error);
-                console.log(error);
-            } else {
-                navigate("/login");
-            }
-        })
-        .catch((err) => {
-            console.log("react logout error", err);
+  useEffect(() => {
+    const handleLogout = async () => {
+      try {
+        const response = await axios.post("/logout", null, {
+          withCredentials: true,
         });
-    }, [navigate]); // Empty dependency array to ensure it runs only once
 
-    return (
-        <>
-            <div>Logout page.....</div>
-        </>
-    );
+        console.log("Logout response:", response);
+
+        if (response.status === 200) {
+          console.log("Logout successful");
+          navigate('/login');
+        } else {
+          console.error("Failed to log out. Status:", response.status);
+        }
+      } catch (error) {
+        console.error("Logout error:", error.response?.data || error.message);
+        if (error.response?.status === 401) {
+          console.log("Token might be missing or invalid. Redirecting to login.");
+          navigate('/login');
+        }
+      }
+    };
+
+    handleLogout();
+  }, [navigate]);
+
+  return (
+    <h1>Logging out...</h1>
+  );
 };

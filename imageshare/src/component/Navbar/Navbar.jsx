@@ -3,13 +3,6 @@ import { NavLink } from 'react-router-dom';
 import "./Navbar.css";
 
 export function Navbar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        // Check if user is logged in by looking in localStorage
-        const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-        setIsLoggedIn(loggedIn);
-    }, []);
 
     return (
         <>
