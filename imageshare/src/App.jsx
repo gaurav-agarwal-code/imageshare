@@ -9,6 +9,7 @@ import { About } from './pages/About.jsx'
 import { Footer } from './component/Footer/Footer.jsx'
 import { Error } from './pages/Error.jsx'
 import {Logout} from './pages/Logout.jsx'
+import { Contact } from './pages/Contact.jsx'
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<Error />} />
       </Routes>
     <Footer />
