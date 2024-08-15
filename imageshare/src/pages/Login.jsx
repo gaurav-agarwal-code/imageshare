@@ -24,10 +24,10 @@ export function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("user:  ", JSON.stringify(user));
+        // console.log("user:  ", JSON.stringify(user));
         
         try {
-            const response = await axios.post("http://localhost:8000/api/v1/user/login", user, {
+            const response = await axios.post("/login", user, {
                 withCredentials: true
             });
     

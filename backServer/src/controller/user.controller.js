@@ -27,7 +27,6 @@ const generateAccessAndrefreshTokens = async (userId) => {
     }
 }
 
-
 const registerUser = asyncHandler(async (req, res) => {
 
     console.log("Request Body:", req.body);
@@ -165,4 +164,15 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 })
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken }
+const userData = asyncHandler(async (req, res) => {
+
+    try {
+        const user = req.user
+        return res.status(200).json(user)
+    } catch (error) {
+        throw new ApiError(500, "user fetch controller error")
+    }
+
+})
+
+export { registerUser, loginUser, logoutUser, refreshAccessToken, userData }

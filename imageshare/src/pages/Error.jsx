@@ -1,6 +1,8 @@
+import React from 'react'
 import { NavLink } from "react-router-dom";
 
 export const Error = () => {
+
   return (
     <>
       <section id="error-page">
@@ -20,4 +22,4 @@ export const Error = () => {
       </section>
     </>
   );
-};
+}
