@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 
 const options = {
     httpOnly: true,
+    secure: process.env.NODE_ENV==="production",
     path: "/",
     domain: "localhost",
     expires: new Date(Date.now() + 86400000)
