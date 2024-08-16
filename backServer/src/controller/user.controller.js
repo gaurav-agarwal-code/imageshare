@@ -5,11 +5,12 @@ import { User } from '../models/user.model.js'
 import { Image } from '../models/image.model.js'
 import jwt from 'jsonwebtoken';
 
+const base_url= process.env.BASE_URI
+
 const options = {
     httpOnly: true,
     secure: process.env.NODE_ENV==="production",
     path: "/",
-    domain: "localhost",
     expires: new Date(Date.now() + 86400000)
 }
 
@@ -99,7 +100,7 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 const logoutUser = asyncHandler(async (req, res) => {
-    console.log("till controller log out");
+    // console.log("till controller log out");
     await User.findByIdAndUpdate(
         req.user._id,
         {
@@ -116,7 +117,6 @@ const logoutUser = asyncHandler(async (req, res) => {
         .clearCookie("refreshToken", options)
         .json(new ApiResponse(200, {}, "user logged out"))
 })
-
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
@@ -173,7 +173,7 @@ const shareImage = asyncHandler(async (req, res) => {
     };
     try {
         const file = await Image.create(fileObj);
-        res.status(200).json(`http://localhost:8000/api/v1/user/file/${file._id}`);
+        res.status(200).json(`${base_url}/api/v1/user/file/${file._id}`);
     } catch (error) {
         console.log("Controller share error:", error);
         res.status(500).json({ message: "Error uploading file", error: error.message });
