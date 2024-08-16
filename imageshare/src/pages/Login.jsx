@@ -32,9 +32,6 @@ export function Login() {
             });
     
             if (response.status === 200) {
-
-                localStorage.setItem("isLoggedIn", "true");
-    
                 alert("Login successful");
                 navigate("/");
             } else {
@@ -46,7 +43,6 @@ export function Login() {
         }
     };    
         
-
     return (
         <>
             <section className="register">
