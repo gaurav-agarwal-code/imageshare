@@ -172,7 +172,7 @@ const shareImage = asyncHandler(async (req, res) => {
     };
     try {
         const file = await Image.create(fileObj);
-        res.status(200).json(`http://localhost:8000/file/${file._id}`);
+        res.status(200).json(`http://localhost:8000/api/v1/user/file/${file._id}`);
     } catch (error) {
         console.log("Controller share error:", error);
         res.status(500).json({ message: "Error uploading file", error: error.message });
@@ -180,7 +180,6 @@ const shareImage = asyncHandler(async (req, res) => {
 });
 
 const downloadImage = asyncHandler(async (req, res) => {
-    console.log("Download initiated");
     try {
         const file = await Image.findById(req.params.fileId);
 
