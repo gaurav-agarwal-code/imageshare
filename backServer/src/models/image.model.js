@@ -1,15 +1,19 @@
 import mongoose from 'mongoose'
 
-const userSchema = new mongoose.Schema({
-    imageFile: {
+const imageSchema = new mongoose.Schema({
+    imagePath: {
         type: String,
         required: true,
     },
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+    name: {
+        type: String,
         required: true,
+    },
+    downloadContent: {
+        type: Number,
+        required: true,
+        default: 0,
     },
 }, { timestamps: true })
 
-export const User = mongoose.model("User", userSchema)
+export const Image = mongoose.model("Image", imageSchema)

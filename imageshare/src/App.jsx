@@ -10,6 +10,8 @@ import { Footer } from './component/Footer/Footer.jsx'
 import { Error } from './pages/Error.jsx'
 import {Logout} from './pages/Logout.jsx'
 import { Contact } from './pages/Contact.jsx'
+import { Upload } from './pages/Upload.jsx'
+import { UploadForm } from './component/UploadForm.jsx'
 
 function App() {
 
@@ -20,11 +22,12 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/share" element={<Share />} />
-        <Route path="/upload" element={<Share />} />
+        <Route path="/upload" element={<Upload />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/uploadform" element={<UploadForm />} />
         <Route path="*" element={<Error />} />
       </Routes>
     <Footer />

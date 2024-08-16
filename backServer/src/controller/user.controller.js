@@ -2,6 +2,7 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 import { ApiError } from '../utils/ApiError.js'
 import { ApiResponse } from '../utils/ApiResponse.js'
 import { User } from '../models/user.model.js'
+import { Image } from '../models/image.model.js'
 import jwt from 'jsonwebtoken';
 
 const options = {
@@ -164,15 +165,46 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 })
 
-const userData = asyncHandler(async (req, res) => {
+const shareImage = asyncHandler(async (req, res) => {
+    const fileObj = {
+        imagePath: req.file.path,
+        name: req.file.originalname
+    };
+    try {
+        const file = await Image.create(fileObj);
+        res.status(200).json(`http://localhost:8000/file/${file._id}`);
+    } catch (error) {
+        console.log("Controller share error:", error);
+        res.status(500).json({ message: "Error uploading file", error: error.message });
+    }
+});
 
+const downloadImage = asyncHandler(async (req, res) => {
+    console.log("Download initiated");
+    try {
+        const file = await Image.findById(req.params.fileId);
+
+        if (!file) {
+            return res.status(404).json({ message: "File not found" });
+        }
+
+        file.downloadContent += 1;
+        await file.save();
+
+        res.download(file.imagePath, file.name);
+    } catch (error) {
+        console.log("Download controller error:", error);
+        res.status(500).json({ message: "Error downloading file", error: error.message });
+    }
+});
+
+const userData = asyncHandler(async (req, res) => {
     try {
         const user = req.user
         return res.status(200).json(user)
     } catch (error) {
         throw new ApiError(500, "user fetch controller error")
     }
-
 })
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, userData }
+export { registerUser, loginUser, logoutUser, refreshAccessToken, shareImage, downloadImage, userData }

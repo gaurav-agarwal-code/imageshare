@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import "./Navbar.css";
+import {useAuth} from '../../store/auth.jsx'
 
 export function Navbar() {
+
+    const {user} = useAuth()
 
     return (
         <>
@@ -24,9 +27,16 @@ export function Navbar() {
 
             <div className="nav-form">
             <ul>
-                <li><NavLink to="/register">register</NavLink></li>
-                <li><NavLink to="/login">login</NavLink></li>
-                <li><NavLink to="/logout">logout</NavLink></li>
+            {user ? 
+                (   <>
+                        <li><NavLink to="/logout">logout</NavLink></li>
+                    </>
+                ) : (
+                    <>
+                        <li><NavLink to="/register">register</NavLink></li>
+                        <li><NavLink to="/login">login</NavLink></li>
+                    </>
+                )}
             </ul>
             </div>
             
