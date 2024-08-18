@@ -356,34 +356,34 @@ button {
 }
 
 .gallery-container {
-  min-height: 70vh; /* Ensure a greater height even when no photos are present */
+  min-height: 70vh;
   position: relative;
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns */
-  gap: 1.6rem; /* Space between images */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust columns based on space */
+  gap: 1.6rem;
 }
 
 .photo-card {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Maintain a square aspect ratio */
   border-radius: 1rem;
   overflow: hidden;
-  width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: white; /* Optional: Add a background color */
+  justify-content: center;
+  background-color: #ffffff;
 }
 
 .photo-card img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the entire container without distorting the image */
   border-radius: 1rem;
-  object-fit: contain; /* Ensures the image maintains its aspect ratio */
 }
 
-/* Updated upload-button CSS */
 .upload-button {
   position: absolute;
-  bottom: 20px; /* Adjusted to stay within the gallery-container */
+  bottom: 0px;
   right: 20px;
   background-color: #007bff;
   color: white;
