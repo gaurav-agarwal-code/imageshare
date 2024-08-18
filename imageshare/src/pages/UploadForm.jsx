@@ -10,16 +10,16 @@ export function UploadForm() {
 
   useEffect(() => {
     if (!user) return;
-
-
     getPhotos();
   }, [user]);
 
-  //********uploading photos********
+  // Uploading photos
   const uploadFile = async (data) => {
     try {
       const response = await axios.post("/uploadform/save", data);
       console.log("Uploaded Photo:", response.data);
+      // Fetch photos again after successful upload
+      getPhotos(); 
     } catch (error) {
       console.error("Error in uploadFile:", error);
     }
@@ -37,7 +37,7 @@ export function UploadForm() {
     }
   };
 
-  //********getting photos********
+  // Fetching photos
   const getPhotos = async () => {
     try {
       const response = await axios.get("/uploadform/get", {
@@ -63,7 +63,9 @@ export function UploadForm() {
         ) : (
           <p>No photos uploaded yet.</p>
         )}
-        <label className="upload-button" htmlFor="file"><FiPlus size={24} /></label>
+        <label className="upload-button" htmlFor="file">
+          <FiPlus size={24} />
+        </label>
         <input hidden type="file" name="file" id="file" onChange={handleFileChange} />
       </div>
     </section>
