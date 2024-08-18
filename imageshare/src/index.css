@@ -346,6 +346,10 @@ button {
   max-width: 120rem;
   margin: 2rem auto;
   position: relative;
+  & h1{
+    font-size: 2.5rem;
+    margin-bottom: 14px;
+  }
 }
 
 .gallery-heading {
