@@ -2,49 +2,70 @@ import React, { useEffect, useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import "../index.css";
 import axios from 'axios';
+import { useAuth } from '../store/auth.jsx';
 
-export function UploadForm({ photos = [], userId }) {
+export function UploadForm() {
+  const [photos, setPhotos] = useState([]);
+  const { user } = useAuth();
 
+  useEffect(() => {
+    if (!user) return;
+
+
+    getPhotos();
+  }, [user]);
+
+  //********uploading photos********
   const uploadFile = async (data) => {
     try {
       const response = await axios.post("/uploadform/save", data);
-      console.log(response.data);
+      console.log("Uploaded Photo:", response.data);
     } catch (error) {
       console.error("Error in uploadFile:", error);
     }
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
+    e.preventDefault();
+
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       const data = new FormData();
-      data.append("name", selectedFile.name);
       data.append("photo", selectedFile);
-      data.append("owner", userId);
-      console.log(data);
-      uploadFile(data);
+      data.append("owner", user._id);
+      await uploadFile(data);
+    }
+  };
+
+  //********getting photos********
+  const getPhotos = async () => {
+    try {
+      const response = await axios.get("/uploadform/get", {
+        withCredentials: true,
+      });
+      console.log("Fetched Photos:", response.data);
+      setPhotos(response.data);
+    } catch (error) {
+      console.error("Error fetching photos:", error);
     }
   };
 
   return (
-    <>
-      <section className="upload-section">
-        <h1>Gallery</h1>
-        <div className="gallery-container">
-          {photos.length > 0 ? (
-            photos.map((photo, index) => (
-              <div key={index} className="photo-card">
-                <img src={photo.url} alt="photo-for-gallery" />
-              </div>
-            ))
-          ) : (
-            <p>No photos uploaded yet.</p>
-          )}
-          <label className="upload-button" htmlFor="file"><FiPlus size={24} /></label>
-          <input hidden type="file" name="file" id="file" onChange={handleFileChange}
-          />
-        </div>
-      </section>
-    </>
+    <section className="upload-section">
+      <h1>Gallery</h1>
+      <div className="gallery-container">
+        {photos.length > 0 ? (
+          photos.map(({ photo, _id }) => (
+            <div key={_id} className="photo-card">
+              <img src={`http://localhost:8000/uploads/${photo}`} alt={photo} />
+            </div>
+          ))
+        ) : (
+          <p>No photos uploaded yet.</p>
+        )}
+        <label className="upload-button" htmlFor="file"><FiPlus size={24} /></label>
+        <input hidden type="file" name="file" id="file" onChange={handleFileChange} />
+      </div>
+    </section>
   );
 }

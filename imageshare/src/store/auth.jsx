@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
             const response = await axios.post("/data", null, { withCredentials: true });
 
             if (response.status === 200) {
-                console.log("user data", response.data);
+                // console.log("user data", response.data);
                 setUser(response.data);
             }
         } catch (error) {

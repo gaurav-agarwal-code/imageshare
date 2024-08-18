@@ -206,30 +206,30 @@ const uploadSave = asyncHandler(async (req, res) => {
     }
 
     const fileObj = {
-        imagePath: req.file.path,
-        name: req.file.originalname,
+        photo: req.file.filename,
         owner: req.body.owner
     };
 
     try {
-        const file = await UserImage.create(fileObj);
-        res.status(200).json({ fileUrl: `${base_url}/api/v1/user/file/${file._id}` });
+        const data = await UserImage.create(fileObj);
+        console.log("uploaded success...");
+        console.log(data);
+        res.send(data)
     } catch (error) {
         console.error("Controller upload_save error:", error);
         res.status(500).json({ message: "Error uploading file", error: error.message });
     }
 });
 
-
 const uploadGet = asyncHandler(async (req, res) => {
     try {
         const userId = req.user._id;
-        const files = await UserImage.find({ owner: userId }).sort({createdAt: "descending"});
-        console.log(files);
-        res.send(files);
+        const allPhotos = await UserImage.find({ owner: userId }).sort({ createdAt: "descending" });
+        res.send(allPhotos);
+        
     } catch (error) {
         console.log("Controller upload_get error:", error);
-        res.status(500).json({ message: "controller Error getting gallery images", error: error.message });
+        res.status(500).json({ message: "Error getting gallery images", error: error.message });
     }
 });
   

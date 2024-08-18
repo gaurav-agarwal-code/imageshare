@@ -2,11 +2,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const userImageSchema = new Schema({
-    imagePath: {
-        type: String,
-        required: true,
-    },
-    name: {
+    photo: {
         type: String,
         required: true,
     },
