@@ -3,6 +3,7 @@ import { ApiError } from '../utils/ApiError.js'
 import { ApiResponse } from '../utils/ApiResponse.js'
 import { User } from '../models/user.model.js'
 import { Image } from '../models/image.model.js'
+import { UserImage } from '../models/userImage.model.js';
 import jwt from 'jsonwebtoken';
 
 const base_url= process.env.BASE_URI
@@ -173,6 +174,7 @@ const shareImage = asyncHandler(async (req, res) => {
     };
     try {
         const file = await Image.create(fileObj);
+        console.log(`${base_url}/api/v1/user/file/${file._id}`);
         res.status(200).json(`${base_url}/api/v1/user/file/${file._id}`);
     } catch (error) {
         console.log("Controller share error:", error);
@@ -198,6 +200,40 @@ const downloadImage = asyncHandler(async (req, res) => {
     }
 });
 
+const uploadSave = asyncHandler(async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const fileObj = {
+        imagePath: req.file.path,
+        name: req.file.originalname,
+        owner: req.body.owner
+    };
+
+    try {
+        const file = await UserImage.create(fileObj);
+        res.status(200).json({ fileUrl: `${base_url}/api/v1/user/file/${file._id}` });
+    } catch (error) {
+        console.error("Controller upload_save error:", error);
+        res.status(500).json({ message: "Error uploading file", error: error.message });
+    }
+});
+
+
+const uploadGet = asyncHandler(async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const files = await UserImage.find({ owner: userId }).sort({createdAt: "descending"});
+        console.log(files);
+        res.send(files);
+    } catch (error) {
+        console.log("Controller upload_get error:", error);
+        res.status(500).json({ message: "controller Error getting gallery images", error: error.message });
+    }
+});
+  
+
 const userData = asyncHandler(async (req, res) => {
     try {
         const user = req.user
@@ -207,4 +243,4 @@ const userData = asyncHandler(async (req, res) => {
     }
 })
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, shareImage, downloadImage, userData }
+export { registerUser, loginUser, logoutUser, refreshAccessToken, shareImage, downloadImage, uploadSave, uploadGet, userData }

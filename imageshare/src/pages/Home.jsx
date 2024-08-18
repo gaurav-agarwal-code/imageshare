@@ -15,7 +15,7 @@ export function Home(props) {
                             ImageShare allows you to upload, store, and share your images with ease. Whether you are a registered user or just a guest, you can share your memorable moments with friends and family by simply uploading your images and generating a shareable link.
                         </p>
                         <div className='hero-btn'>
-                            <NavLink to='/upload' className="btn">Upload</NavLink>
+                            <NavLink to='/share' className="btn">Share</NavLink>
                         </div>
                     </div>
                     <div className="hero-image">
