@@ -8,7 +8,7 @@ export function Footer() {
             <div className="container grid grid-four-cols">
                 <div className="footer-column">
                     <h4>About Us</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia, laborum.</p>
+                    <p>Driven by innovation and committed to excellence in everything we do.</p>
                 </div>
                 <div className="footer-column">
                     <h4>Quick Links</h4>
@@ -21,8 +21,8 @@ export function Footer() {
                 </div>
                 <div className="footer-column">
                     <h4>Contact Us</h4>
-                    <p>Email: info@example.com</p>
-                    <p>Phone: +123 456 7890</p>
+                    <p>Email: 986gaua@gmail.com</p>
+                    <p></p>
                 </div>
                 <div className="footer-column">
                     <h4>Follow Us</h4>

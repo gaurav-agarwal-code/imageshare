@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAuth } from '../store/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ export function Upload(props) {
             navigate("/UploadForm");
         } else {
             navigate("/login");
+            console.log("please login first");
         }
     }, [user, navigate]);
 
