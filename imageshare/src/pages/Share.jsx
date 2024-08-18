@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 export function Share(props) {
     const [file, setFile] = useState(null);
@@ -28,7 +28,7 @@ export function Share(props) {
         const response = await uploadFile(data);
         if (response) {
             setResult(response);
-            setFile(null); // Reset the file state
+            setFile(null);
         }
     };
 

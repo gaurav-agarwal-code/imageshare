@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from './component/Navbar/Navbar.jsx';
 import { Home } from "./pages/Home.jsx";
@@ -12,34 +11,8 @@ import { Logout } from './pages/Logout.jsx';
 import { Contact } from './pages/Contact.jsx';
 import { Upload } from './pages/Upload.jsx';
 import { UploadForm } from './pages/UploadForm.jsx';
-import { useAuth } from './store/auth.jsx';
-import axios from 'axios';
-
 
 function App() {
-  const [photos, setPhotos] = useState([]);
-  const { user } = useAuth();
-
-  useEffect(() => {
-    // if (!user) return;
-
-    const getPhotos = async () => {
-      try {
-        const response = await axios.get("/uploadform/get", {
-          withCredentials: true,
-        });
-        
-        console.log(response.data);
-        setPhotos(response.data);
-      } catch (error) {
-        console.error("Error fetching photos:", error);
-      }
-    };
-
-    getPhotos();
-  }, [user]);
-
-
   return (
     <BrowserRouter>
       <Navbar />
@@ -52,7 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/uploadform" element={<UploadForm photos={photos} />} />
+        <Route path="/uploadform" element={<UploadForm />} />
         <Route path="*" element={<Error />} />
       </Routes>
       <Footer />
