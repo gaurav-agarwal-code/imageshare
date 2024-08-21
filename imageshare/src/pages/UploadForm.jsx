@@ -57,7 +57,7 @@ export function UploadForm() {
         {photos.length > 0 ? (
           photos.map(({ photo, _id }) => (
             <div key={_id} className="photo-card">
-              <img src={`http://localhost:8000/uploads/${photo}`} alt={photo} />
+              <a href={`http://localhost:8000/uploads/${photo}`} target="_blank" ><img src={`http://localhost:8000/uploads/${photo}`} alt={photo} /></a>
             </div>
           ))
         ) : (
